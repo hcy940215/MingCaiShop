@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全部分类</title>
+    <script type="text/javascript" src="../js/jquery_3.2.1.min.js"></script>
+
+    <script type="text/javascript">
+        getGoodList(5,0);
+        function getGoodList(cid,catId) {
+            $.post("https://shop.mingpinjiancai.com/class/goods/goodsList", {
+                cid: cid,
+                catId: catId,
+                bid: 0,
+                sid: 0,
+                page: 1
+
+            }, function (data) {
+                var s = data["data"];
+                var list = s["list"];
+                var goodCount = list.length;
+                var $goodUl = $(".mingcai ul");
+                for (var i = 0; i < goodCount; i++) {
+                    var $li = $("<li></li>");
+
+                    //大图片
+                    var $bigImg = $("<img/>");
+                    $bigImg.attr("class", "biggoodpic");
+                    $bigImg.attr("src", list[i].imgpath);
+                    $li.append($bigImg);
+
+                    //小图片
+                    var $div = $("<div></div>");
+                    var imgSmallLength = list[i].imgArr.length;
+                    for (var j = 0; j < imgSmallLength; j++) {
+                        var $sImg = $("<img/>");
+                        $sImg.attr("class", "imgsmall");
+                        $sImg.attr("src", list[i].imgArr[j]);
+                        $div.append($sImg);
+
+                        $sImg.mouseenter(function () {
+                            var parentElement = $(this).parent().parent();
+                            var firstElementChild = parentElement.children("img:first-child");
+                            firstElementChild.attr("src", $(this).attr("src"));
+                        });
+                    }
+
+                    //标题
+                    var $detial = $("<a></a>");
+                    var $title = $("<p></p>");
+                    $title.append($detial);
+                    $title.attr("class", "title");
+                    $detial.text(list[i].names);
+                    $detial.attr("href", "detial.html");
+                    //价格
+                    var $price = $("<p></p>");
+                    $price.attr("class", "price");
+                    $price.text("￥" + list[i].price + "/" + list[i].unit);
+
+                    $li.append($div);
+                    $li.append($title);
+                    $li.append($price);
+                    $goodUl.append($li);
+                    $goodUl.append($goodUl);
+                }
+
+            }, "json");
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        // $(document).ready(function () {
+        //
+        // })
+
+        $.post("https://shop.mingpinjiancai.com/cat", {
+
+        }, function (data) {
+            var titleList = data["data"];
+
+            //获取一级标题的ul
+            var $first_ul = $(".first_ul");
+
+            //获取二级标题的ul
+            var $second_ul= $(".second_ul");
+
+            //获取三级标题的ul
+            var $three_ul= $(".three_ul");
+
+            for(var i=0;i<titleList.length;i++){
+                var $first_li = $("<li></li>");
+
+                if (i==0){
+                    $first_li.addClass("active");
+                }
+                $first_li.text(titleList[i].names);
+                $first_ul.append($first_li);
+                $first_li.click(function () {
+                    $second_ul.empty();
+                    $first_ul.find("li").removeClass("active");
+                    $(this).addClass("active");
+                    var $goodUl = $(".mingcai ul");
+                    $goodUl.empty();
+                    getGoodList(titleList[$(this).index()].class[0].cid,0);
+                    for(var j=0;j<titleList[$(this).index()].class.length;j++){
+                        var $second_li = $("<li></li>");
+                        if (j==0){
+                            $second_li.addClass("active");
+                        }
+                        $second_li.text(titleList[$(this).index()].class[j].classnames);
+                        $second_ul.append($second_li);
+
+                        $second_li.click(function () {
+                           var s=$first_ul.find(".active");
+                            $three_ul.empty();
+
+                            var $goodUl = $(".mingcai ul");
+                            $goodUl.empty();
+                            getGoodList(titleList[s.index()].class[$(this).index()].cid,0);
+
+                            $second_ul.find("li").removeClass("active");
+                            $(this).addClass("active");
+                            for(var x=0;x<titleList[s.index()].class[$(this).index()].catsList.length;x++){
+                                var $three_li = $("<li></li>");
+                                if (x==0){
+                                    $three_li.addClass("active");
+                                }
+                                $three_li.text(titleList[s.index()].class[$(this).index()].catsList[x].catName);
+                                $three_ul.append($three_li);
+
+                                $three_li.click(function () {
+
+                                    var $secondSelecetLi=$second_ul.find(".active");
+                                    var $goodUl = $(".mingcai ul");
+                                    $goodUl.empty();
+                                    getGoodList(
+                                        titleList[s.index()].
+                                            class[$secondSelecetLi.index()].cid
+                                        ,titleList[s.index()].
+                                        class[$secondSelecetLi.index()]
+                                        .catsList[$(this).index()].catId);
+
+                                    $three_ul.find("li").removeClass("active");
+                                    $(this).addClass("active");
+                                })
+                            }
+                        });
+                    }
+
+                    $three_ul.empty();
+                    for(var y=0;y<titleList[$(this).index()].class[0].catsList.length;y++){
+                        var $three_li = $("<li></li>");
+                        if (y==0){
+                            $three_li.addClass("active");
+                        }
+                        $three_li.text(titleList[$(this).index()].class[0].catsList[y].catName);
+                        $three_ul.append($three_li);
+                        $three_li.click(function () {
+                            var $firstSelecetLi=$first_ul.find(".active");
+                            var $secondSelecetLi=$second_ul.find(".active");
+                            var $goodUl = $(".mingcai ul");
+                            $goodUl.empty();
+                            getGoodList(
+                                titleList[$firstSelecetLi.index()].
+                                    class[$secondSelecetLi.index()].cid
+                                ,titleList[$firstSelecetLi.index()].
+                                    class[$secondSelecetLi.index()]
+                                    .catsList[$(this).index()].catId);
+
+                            $three_ul.find("li").removeClass("active");
+                            $(this).addClass("active");
+                        })
+                    }
+                });
+            }
+
+            for(var i=0;i<titleList[0].class.length;i++){
+                var $second_li = $("<li></li>");
+                if (i==0){
+                    $second_li.addClass("active");
+                }
+                $second_li.text(titleList[0].class[i].classnames);
+                $second_ul.append($second_li);
+
+                $second_li.click(function () {
+                    var s=$first_ul.find(".active");
+                    $three_ul.empty();
+
+                    var $goodUl = $(".mingcai ul");
+                    $goodUl.empty();
+                    getGoodList(titleList[s.index()].class[$(this).index()].cid,0);
+
+                    $second_ul.find("li").removeClass("active");
+                    $(this).addClass("active");
+                    for(var x=0;x<titleList[s.index()].class[$(this).index()].catsList.length;x++){
+                        var $three_li = $("<li></li>");
+                        if (x==0){
+                            $three_li.addClass("active");
+                        }
+                        $three_li.text(titleList[s.index()].class[$(this).index()].catsList[x].catName);
+                        $three_ul.append($three_li);
+
+                        $three_li.click(function () {
+
+                            var $secondSelecetLi=$second_ul.find(".active");
+                            var $goodUl = $(".mingcai ul");
+                            $goodUl.empty();
+                            getGoodList(
+                                titleList[s.index()].
+                                    class[$secondSelecetLi.index()].cid
+                                ,titleList[s.index()].
+                                    class[$secondSelecetLi.index()]
+                                    .catsList[$(this).index()].catId);
+
+                            $three_ul.find("li").removeClass("active");
+                            $(this).addClass("active");
+                        })
+                    }
+                });
+            }
+
+            for(var i=0;i<titleList[0].class[0].catsList.length;i++){
+                var $three_li = $("<li></li>");
+                if (i==0){
+                    $three_li.addClass("active");
+                }
+                $three_li.text(titleList[0].class[0].catsList[i].catName);
+                $three_ul.append($three_li);
+                $three_li.click(function () {
+
+                    var $secondSelecetLi=$second_ul.find(".active");
+                    var $goodUl = $(".mingcai ul");
+                    $goodUl.empty();
+                    getGoodList(
+                        titleList[s.index()].
+                            class[$secondSelecetLi.index()].cid
+                        ,titleList[s.index()].
+                            class[$secondSelecetLi.index()]
+                            .catsList[$(this).index()].catId);
+
+                    $three_ul.find("li").removeClass("active");
+                    $(this).addClass("active");
+                })
+            }
+            
+        }, "json");
+    </script>
+
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .header {
+            height: 80px;
+            background: #009fe8;
+        }
+
+        .inner_c {
+            width: 1200px;
+            height: 80px;
+            margin: 0 auto;
+        }
+
+        .header .logo {
+            float: left;
+            height: 80px;
+            margin-right: 60px;
+        }
+
+        .header .nav {
+
+            background: #009fe8;
+        }
+
+        .header .nav_title {
+            list-style: none;
+        }
+
+        .header .nav ul li {
+            float: left;
+            width: 150px;
+            height: 80px;
+        }
+
+        .header .nav ul li a {
+            float: left;
+            width: 150px;
+            height: 80px;
+            display: block;
+            text-align: center;
+            line-height: 80px;
+            text-decoration: none;
+            color: #eeeeee;
+            font-size: 16px;
+
+        }
+
+        .category_title{
+            width: 1280px;
+            margin: 0 auto;
+            background: #FBFBFB;
+            border: #A5A5A5 solid 1px;
+        }
+        .first_title{
+            width: 1280px;
+            margin: 0 auto;
+            height: 60px;
+        }
+        .second_title{
+            width: 1280px;
+            margin: 0 auto;
+        }
+        .three_title{
+            width: 1280px;
+            margin: 0 auto;
+        }
+        .brand_div {
+            width: 1280px;
+            margin: 0 auto;
+        }
+        .size_div{
+            width: 1280px;
+            margin: 0 auto;
+        }
+        .first_ul{
+            width: 1280px;
+            list-style: none;
+            height: 50px;
+        }
+        .second_ul{
+            height: 50px;
+            width: 1280px;
+            list-style: none;
+        }
+        .three_ul{
+            height: 150px;
+            width: 1280px;
+            list-style: none;
+        }
+        .first_ul li{
+            float: left;
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        .first_ul li.active{
+            background-color: #009fe8;
+        }
+        .second_ul li.active{
+            background-color: #009fe8;
+        }
+        .three_ul li.active{
+            background-color: #009fe8;
+        }
+        .second_ul li{
+            float: left;
+            padding: 10px;
+        }
+        .three_ul li{
+            padding: 10px;
+
+            float: left;
+        }
+
+        .content {
+            width: 1280px;
+            margin: 0 auto;
+            height: 1450px;
+            /*background: #E97305;*/
+        }
+
+        .content .mingcai ul {
+            list-style: none;
+        }
+
+        .content .mingcai ul li {
+            float: left;
+            width: 308px;
+            margin: 4px;
+            padding: 1px;
+            border: #E5E5E5 solid 1px;
+        }
+
+        .content .mingcai ul li .biggoodpic {
+            margin: 0 50px;
+            width: 200px;
+            height: 200px;
+            padding: 5px;
+        }
+
+        .content .mingcai ul li div {
+            height: 54px;
+        }
+
+        .content .mingcai ul li .title {
+            margin: 8px;
+            font-size: 20px;
+        }
+
+        .content .mingcai ul li .price {
+            margin: 8px;
+            color: red;
+            font-size: 18px;
+        }
+
+        .content .mingcai ul li div .imgsmall {
+            float: left;
+            width: 60px;
+            height: 50px;
+            margin: 2px;
+            padding: 1px;
+            border: #E5E5E5 solid 1px;
+        }
+
+        .content .mingcai ul li div img:first-child {
+            margin-left: 50px;
+        }
+
+        .footer {
+            height: 200px;
+            background: #009fe8;
+        }
+
+        .footer .footer_inner {
+            width: 1200px;
+            margin: 0 auto;
+            /*text-align: center;*/
+        }
+
+        .footer .footer_inner .phone {
+            margin-left: 100px;
+            height: 120px;
+            float: left;
+            width: 300px;
+            color: #F7F7F7;
+            margin-top: 30px;
+
+        }
+
+        .foot_logo {
+
+            margin-left: 150px;
+            float: left;
+        }
+
+        .foot_logo img {
+
+            margin-top: 30px;
+            float: left;
+        }
+
+        .footer .footer_inner .foot_qrcode {
+            margin-left: 150px;
+            float: left;
+        }
+
+        .footer .footer_inner .foot_qrcode img {
+            margin-top: 20px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="inner_c">
+        <p class="logo">
+            <img src="../images/logo.png">
+        </p>
+        <div class="nav">
+            <ul class="nav_title">
+                <li>
+                    <a href="#">
+                        商城首页
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        全部分类
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html">
+                        关于铭材
+                    </a>
+                </li>
+                <li>
+                    <a href="downapp.html">
+                        下载APP
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="category_title">
+    <div class="first_title">
+        <ul class="first_ul">
+
+        </ul>
+    </div>
+    <div class="second_title">
+        <ul class="second_ul">
+
+        </ul>
+    </div>
+    <div class="three_title">
+        <ul class="three_ul">
+
+        </ul>
+    </div>
+    <div class="brand_div">
+        <ul class="brand_ul">
+
+        </ul>
+    </div>
+    <div class="size_div">
+        <ul class="size_ul">
+
+        </ul>
+    </div>
+</div>
+
+<div class="content">
+    <div class="mingcai">
+        <ul>
+            <!--<li>-->
+            <!--<img class="biggoodpic" src="../images/icon_good_big.png"/>-->
+            <!--<div>-->
+            <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
+            <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
+            <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
+            <!--</div>-->
+            <!--<p class="title">标题</p>-->
+            <!--<p class="price">价格</p>-->
+            <!--</li>-->
+        </ul>
+    </div>
+</div>
+
+<div class="footer">
+
+    <div class="footer_inner">
+        <div class="phone">
+            <h4>铭材一站式建材采购平台</h4>
+            <p>客服热线</p>
+            <p>010-60381566</p>
+            <p>总部地址</p>
+            <p>北京市房山区良乡苏庄共创大厦底商103</p>
+        </div>
+
+        <div class="foot_logo">
+            <img src="../images/logo_120.png">
+        </div>
+
+        <div class="foot_qrcode">
+            <img src="../images/qr.png">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

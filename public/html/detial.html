@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情界面</title>
+    <script type="text/javascript" src="../js/jquery_3.2.1.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../css/style.css"/>
+    <script type="text/javascript">
+        // $(document).ready(function () {
+        //
+        // })
+
+        $.post("https://shop.mingpinjiancai.com/goods/item", {
+            id: 2047
+        }, function (data) {
+            var goodInfo = data["data"];
+            var $title = $(".title");
+            $title.text(goodInfo.names);
+            var $price = $(".price");
+            $price.text("￥" + goodInfo.price + "/" + goodInfo.unit);
+        // <img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"
+        //     src="../product-details-master/images/small/5590e481Nde172fa2.jpg" width="50"
+        //     height="50">
+            var $smallUl = $(".lh");
+            for (var i = 0; i < goodInfo.minImg.length; i++) {
+                var $li = $("<li></li>");
+                var $sImg = $("<img/>");
+                if (i == 0) {
+                    $sImg.attr("class", "img-hover");
+                }
+                $sImg.attr("src", goodInfo.minImg[i]);
+                $sImg.attr("width", 50);
+                $sImg.attr("height", 50);
+                $li.append($sImg);
+                $smallUl.append($li);
+            }
+
+        }, "json");
+    </script>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .header {
+            height: 80px;
+            background: #009fe8;
+        }
+
+        .inner_c {
+            width: 1200px;
+            height: 80px;
+            margin: 0 auto;
+        }
+
+        .header .logo {
+            float: left;
+            height: 80px;
+            margin-right: 60px;
+        }
+
+        .header .nav {
+
+            background: #009fe8;
+        }
+
+        .header .nav_title {
+            list-style: none;
+        }
+
+        .header .nav ul li {
+            float: left;
+            width: 150px;
+            height: 80px;
+        }
+
+        .header .nav ul li a {
+            float: left;
+            width: 150px;
+            height: 80px;
+            display: block;
+            text-align: center;
+            line-height: 80px;
+            text-decoration: none;
+            color: #eeeeee;
+            font-size: 16px;
+
+        }
+
+        .mingcai {
+            margin: 0 auto;
+            width: 1500px;
+            height: 660px;
+
+        }
+
+        .mingcai .product_img {
+            float: left;
+            margin: 10px;
+            width: 650px;
+            height: 650px;
+            background:white;
+        }
+
+        .mingcai .product_info {
+            float: left;
+            margin: 10px;
+            width: 700px;
+            height: 650px;
+        }
+
+        .mingcai .qrcore {
+            float: left;
+            margin: 50px 0 10px 50px;
+            width: 600px;
+            height: 250px;
+        }
+
+        .mingcai .product_info .title {
+            margin: 50px 0 10px 50px;
+            font-size: 24px;
+        }
+
+        .mingcai .product_info .price_div {
+            height: 50px;
+            margin: 0px 50px;
+            background-color: #F0F9FE;
+        }
+
+        .mingcai .product_info .price {
+            margin-top: 10px;
+            font-size: 24px;
+            height: 50px;
+            line-height: 50px;
+            color: #009fe8;
+        }
+
+        .detial_content {
+            margin: 0 auto;
+            width: 1500px;
+            height: 1000px;
+
+        }
+
+        .detial_content .info_detial {
+            margin: 20px;
+            width: 100%;
+            height: 20px;
+            font-size: 16px;
+            text-decoration: #313437;
+            color: #009fe8;
+        }
+
+        .detial_content img {
+            margin-left: 250px;
+        }
+
+        .footer {
+            height: 200px;
+            background: #009fe8;
+        }
+
+        .footer .footer_inner {
+            width: 1200px;
+            margin: 0 auto;
+            /*text-align: center;*/
+        }
+
+        .footer .footer_inner .phone {
+            margin-left: 100px;
+            height: 120px;
+            float: left;
+            width: 300px;
+            color: #F7F7F7;
+            margin-top: 30px;
+
+        }
+
+        .foot_logo {
+
+            margin-left: 150px;
+            float: left;
+        }
+
+        .foot_logo img {
+
+            margin-top: 30px;
+            float: left;
+        }
+
+        .footer .footer_inner .foot_qrcode {
+            margin-left: 150px;
+            float: left;
+        }
+
+        .footer .footer_inner .foot_qrcode img {
+            margin-top: 20px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="inner_c">
+        <p class="logo">
+            <img src="../images/logo.png">
+        </p>
+        <div class="nav">
+            <ul class="nav_title">
+                <li>
+                    <a href="#">
+                        商城首页
+                    </a>
+                </li>
+                <li>
+                    <a href="category.html">
+                        全部分类
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html">
+                        关于铭材
+                    </a>
+                </li>
+                <li>
+                    <a href="downapp.html">
+                        下载APP
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="mingcai">
+    <div class="product_img">
+        <div class="w">
+            <div id="product-intro" class="m-item-grid clearfix">
+                <div id="preview">
+                    <div id="spec-n1" class="jqzoom">
+                        <img src="../product-details-master/images/big/5593a8d2Na9d2eb59.jpg" width="350" height="350"
+                             alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通">
+                        <div class="jqZoomPup"
+                             style="width: 175px;height: 175px;visibility: visible; top: 0px; left: 0px;display: none;"></div>
+                    </div>
+                    <div class="zoomdiv" id="zoomdiv" style="width: 400px; height: 400px;">
+                        <img id="hugeImg" style="position: absolute;"
+                             src="../product-details-master/images/huge-img/5593a8d2Na9d2eb59.jpg" height="800"
+                             width="800">
+
+                    </div>
+                    <div id="spec-list">
+                        <a href="javascript:;" class="spec-control disabled" id="spec-forward"></a>
+                        <a href="javascript:;" class="spec-control" id="spec-backward"></a>
+                        <div class="spec-items" style="position: absolute;width: 310px; height: 54px;overflow: hidden;">
+                            <ul class="lh" style="position: absolute; width: 806px; height: 54px; top: 0px; left: 0px;">
+                                <!--<li>-->
+                                    <!--<img class="img-hover" alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5593a8d2Na9d2eb59.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Na2a8366a.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Nd82bf296.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Nb0744b37.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Nde172fa2.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481N51c8ee03.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Na2a8366a.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Nd82bf296.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Nb0744b37.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481Nde172fa2.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5590e481N51c8ee03.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5593a8d2Na9d2eb59.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<img alt="荣耀 7 (PLK-TL01H) 3GB+32GB内存版 冰河银 移动4G手机 双卡双待双通"-->
+                                         <!--src="../product-details-master/images/small/5593a8d2Na9d2eb59.jpg" width="50"-->
+                                         <!--height="50">-->
+                                <!--</li>-->
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="../js/script.js"></script>
+    </div>
+
+    <div class="product_info">
+        <p class="title">会员电线</p>
+        <div class="price_div">
+            <p class="price">￥:114元</p>
+        </div>
+        <p style="color: grey;margin-left: 50px;margin-top: 20px">优惠</p>
+        <p style="
+        color: #009fe8;
+        margin-left: 50px;
+        margin-top: 10px;
+        border: 2px solid #009fe8;
+        padding: 4px;
+        float: left;
+        border-radius: 4px">首单满1000减100</p>
+
+        <div class="qrcore">
+            <img style="float: left;" src="../images/icon_detial_qr.png" alt="">
+            <div style="float: left;">
+                <div>
+                    <h2 style="margin-left: 50px;margin-top: 60px">扫码下载APP</h2>
+                </div>
+                <div>
+                    <h2 style="margin-left: 30px;margin-top: 16px">即刻下单尊享优惠</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detial_content">
+    <p class="info_detial">相关信息</p>
+    <img src="../images/icon_detial.png">
+</div>
+
+<div class="footer">
+
+    <div class="footer_inner">
+        <div class="phone">
+            <h4>铭材一站式建材采购平台</h4>
+            <p>客服热线</p>
+            <p>010-60381566</p>
+            <p>总部地址</p>
+            <p>北京市房山区良乡苏庄共创大厦底商103</p>
+        </div>
+
+        <div class="foot_logo">
+            <img src="../images/logo_120.png">
+        </div>
+
+        <div class="foot_qrcode">
+            <img src="../images/qr.png">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
