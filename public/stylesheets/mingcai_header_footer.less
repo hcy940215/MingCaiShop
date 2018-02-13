@@ -1,0 +1,244 @@
+// 默认最小可视宽度
+@defaultMinWidth: 1280px;
+// 内容宽度
+@contextWidth: 1280px;
+// 头部导航条高度
+@headerHeight: 100px;
+// 一级分类宽度和分类商品左侧分类列表宽度
+@context-class-width: 250px;
+// 一级分类左侧轮播入宽度和分类商品右侧商品列表宽度
+@context-banner-width: @contextWidth - @context-class-width;
+// 一级分类和二级分类列表高度
+@context-class-height: 500px;
+// 底部标签栏高度
+@footerHeight: 200px;
+// 轮播图高度
+@context-banner-height: @context-class-height;
+// 图片列表高度
+@context-pic-list-height: 170px;
+// 商品分类列表高度
+@context-commodity-list-height: 460px;
+
+// 水平方向的间距
+@insetHorizontalMargin: 15px;
+// 垂直方向的间距
+@insetVerticalMargin: 10px;
+
+@header-footer-left: 15%;
+// 头部和内容间距
+@margin-header-context: 100px;
+// 尾部和内容间距
+@margin-footer-context: 100px;
+//
+@margin-context-banner-pic: 20px;
+
+/**
+  字体
+*/
+
+@bestFontSize: 20px;
+@biggerFontSize: 18px;
+@normalFontSize: 15px;
+@smallerFontSize: 12px;
+
+/**
+  颜色
+*/
+@navigation-background-color: rgb(27, 162, 232);
+
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  min-width: @defaultMinWidth;
+  background-color: rgb(239, 250, 255);
+  text-align: center;
+}
+
+/*头部布局*/
+div#header {
+  position: relative;
+  min-width: @defaultMinWidth;
+  width: 100%;
+  height: 100px;
+  background-color: @navigation-background-color;
+
+  >div#header-context {
+    margin: auto;
+    width: @contextWidth;
+    height: 100%;
+
+    >div#header-icon {
+      position: relative;
+      float: left;
+      width: 80px;
+      height: 80px;
+      top: 50%;
+      left: @header-footer-left;
+      transform: translateY(-50%);
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    >div#btn-list {
+      position: absolute;
+      height: 44px;
+      width: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      //float: left;
+      /*background-color: orange;*/
+      overflow: hidden;
+
+      >ul {
+        width: 100%;
+        height: 100%;
+
+        >li {
+          margin: 0 10px;
+          list-style: none;
+          float: left;
+          text-align: center;
+          line-height: 44px;
+
+          a {
+            color: white;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    >div#search-login {
+      position: relative;
+      top: 50%;
+      right: @header-footer-left;
+      transform: translateY(-50%);
+      float: right;
+      text-align: right;
+
+      p {
+        position: relative;
+        height: 30px;
+        border: 1px solid white;
+        border-radius: 15px;
+        line-height: 30px;
+        padding: 0 40px 0 10px;
+
+        img {
+          position: absolute;
+          left: 100%;
+          top: 0;
+          width: 20px;
+          height: 20px;
+          transform: translate(-30px, 5px);
+          z-index: 2;
+        }
+      }
+    }
+  }
+}
+
+/*底部布局*/
+div#footer {
+  min-width: @defaultMinWidth;
+  width: 100%;
+  height: 200px;
+  background-color: @navigation-background-color;
+
+  >div#footer-context {
+    position: relative;
+    margin: auto;
+    width: @contextWidth;
+    height: 100%;
+    /*background-color: blue;*/
+
+    p {
+      color: white;
+      font-size: @bestFontSize;
+    }
+
+    >div#footer-about-info {
+      position: relative;
+      float: left;
+      left: @header-footer-left;
+      width: auto;
+      height: 100%;
+      /*background-color: orange;*/
+      display: table;
+
+      >div {
+        display: table-cell;
+        vertical-align: middle; /*文本垂直居中*/
+
+        >p { /*div中多个元素高度不固定且要垂直居中：上层要table-cell，上上层要table*/
+          text-align: left;
+        }
+
+        >p:not(:first-child) {
+          font-size: @smallerFontSize;
+        }
+      }
+    }
+
+    >div#footer-icon {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+
+      >img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    >div#footer-code-icon {
+      width: auto;
+      height: 100%;
+      position: relative;
+      float: right;
+      right: @header-footer-left;
+      /*background-color: red;*/
+      display: table;
+
+      >div {
+        display: table-cell;
+        vertical-align: middle;
+        width: auto;
+        height: 100%;
+        /*background-color: gold;*/
+
+        >img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+  }
+}
+
+/*整体样式*/
+.text-style {
+  font-size: @biggerFontSize;
+  font-weight: 900;
+  color: white;
+  // 解决不同浏览器字体渲染不同的问题
+  font-family: -apple-system, BlinkMacSystemFont,
+  "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+  "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+}
+
+.clicked-style {
+  //font-size: @biggerFontSize;
+  color: @navigation-background-color;
+}

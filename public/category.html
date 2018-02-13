@@ -2,9 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>全部分类</title>
-    <script type="text/javascript" src="../javascripts/jquery_3.2.1.min.js"></script>
+    <title>分类界面</title>
+    <link rel="stylesheet" href="stylesheets/mingcai_header_footer.css">
+    <script type="text/javascript" src="javascripts/jquery_3.2.1.min.js"></script>
+    <script src="javascripts/js-common.js"></script>
+    <script src="javascripts/mingcai_header_footer.js"></script>
+    <script>
 
+        $(document).ready(function (e) {
+            // 头部容器
+            var headerDiv = $("#header");
+            var iconUrl = "images/header-icon.png";
+            var titleList = [{title:"商城首页", url:"index.html"},
+                {title:"全部分类", url:"category.html"}, {title:"关于铭材", url:"about.html"},
+                {title:"下载app", url:"downapp.html"}];
+            var searchInfo = {url:"images/search-icon.png", title:"立邦漆 慧远电线"};
+            // 初始化头部对象
+//            var header = new Header(iconUrl, titleList, searchInfo);
+            var header = new Header(null, null, null);
+            header.iconUrl = iconUrl;
+            header.titleList = titleList;
+            header.searchInfo = searchInfo;
+            header.searchCallBack = function () {
+                alert(456);
+            };
+            headerDiv.append(header.contextEle);
+
+            // 尾部容器
+            var footerDiv = $("#footer");
+            var aboutInfoList = [{title:"铭材-一站式建材采购平台"}, {title:"客服热线：", telephone:"010-60381566"},
+                {title:"总部地址：", address:"北京市房山区良乡苏庄共创大厦底商103号"}];
+            var centerIconUrl = "images/footer-icon.png";
+            var coderInfo = {title:"扫码下载app", url:"images/footer-code-icon.png"};
+            // 初始化尾部对象
+            var footer = new Footer(aboutInfoList, centerIconUrl, coderInfo);
+            footer.codeCallBack = function () {
+                alert(123);
+            };
+            footerDiv.append(footer.contextEle);
+        });
+    </script>
     <script type="text/javascript">
         getGoodList(5, 0);
 
@@ -53,7 +90,7 @@
                     $title.attr("class", "title");
                     $detial.text(list[i].names);
                     $detial.click(function () {
-                        var url = "detial.html?index=" + list[$(this).index()].id;
+                        var url = "detial.html?id=" + list[$(this).index()].id;
                         window.location.href = url;
                     });
                     //价格
@@ -75,7 +112,6 @@
                 for (var i = 0; i < brandList.length; i++) {
                     var $brandli = $("<li></li>");
                     if (i == 0) {
-
                         $brandli.addClass("active");
                     }
                     $brandli.text(brandList[i].names);
@@ -276,57 +312,7 @@
 
         }, "json");
     </script>
-
-    <style type="text/css">
-        * {
-            padding: 0;
-            margin: 0;
-        }
-
-        .header {
-            height: 80px;
-            background: #009fe8;
-        }
-
-        .inner_c {
-            width: 1200px;
-            height: 80px;
-            margin: 0 auto;
-        }
-
-        .header .logo {
-            float: left;
-            height: 80px;
-            margin-right: 60px;
-        }
-
-        .header .nav {
-
-            background: #009fe8;
-        }
-
-        .header .nav_title {
-            list-style: none;
-        }
-
-        .header .nav ul li {
-            float: left;
-            width: 150px;
-            height: 80px;
-        }
-
-        .header .nav ul li a {
-            float: left;
-            width: 150px;
-            height: 80px;
-            display: block;
-            text-align: center;
-            line-height: 80px;
-            text-decoration: none;
-            color: #eeeeee;
-            font-size: 16px;
-
-        }
+    <style>
 
         .category_title {
             width: 1280px;
@@ -492,151 +478,55 @@
         .content .mingcai ul li div img:first-child {
             margin-left: 15px;
         }
-
-        .footer {
-            height: 200px;
-            background: #009fe8;
-        }
-
-        .footer .footer_inner {
-            width: 1200px;
-            margin: 0 auto;
-            /*text-align: center;*/
-        }
-
-        .footer .footer_inner .phone {
-            margin-left: 100px;
-            height: 120px;
-            float: left;
-            width: 300px;
-            color: #F7F7F7;
-            margin-top: 30px;
-
-        }
-
-        .foot_logo {
-
-            margin-left: 150px;
-            float: left;
-        }
-
-        .foot_logo img {
-
-            margin-top: 30px;
-            float: left;
-        }
-
-        .footer .footer_inner .foot_qrcode {
-            margin-left: 150px;
-            float: left;
-        }
-
-        .footer .footer_inner .foot_qrcode img {
-            margin-top: 20px;
-            float: left;
-        }
     </style>
+
 </head>
 <body>
+    <div id="header"></div>
+    <div class="category_title">
+        <div class="first_title">
+            <ul class="first_ul">
 
-<div class="header">
-    <div class="inner_c">
-        <p class="logo">
-            <img src="../images/logo.png">
-        </p>
-        <div class="nav">
-            <ul class="nav_title">
-                <li>
-                    <a href="#">
-                        商城首页
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        全部分类
-                    </a>
-                </li>
-                <li>
-                    <a href="about.html">
-                        关于铭材
-                    </a>
-                </li>
-                <li>
-                    <a href="downapp.html">
-                        下载APP
-                    </a>
-                </li>
+            </ul>
+        </div>
+        <div class="second_title">
+            <ul class="second_ul">
+
+            </ul>
+        </div>
+        <div class="three_title">
+            <ul class="three_ul">
+
+            </ul>
+        </div>
+        <div class="brand_div">
+            <ul class="brand_ul">
+
+            </ul>
+        </div>
+        <div class="size_div">
+            <ul class="size_ul">
 
             </ul>
         </div>
     </div>
-</div>
 
-<div class="category_title">
-    <div class="first_title">
-        <ul class="first_ul">
-
-        </ul>
-    </div>
-    <div class="second_title">
-        <ul class="second_ul">
-
-        </ul>
-    </div>
-    <div class="three_title">
-        <ul class="three_ul">
-
-        </ul>
-    </div>
-    <div class="brand_div">
-        <ul class="brand_ul">
-
-        </ul>
-    </div>
-    <div class="size_div">
-        <ul class="size_ul">
-
-        </ul>
-    </div>
-</div>
-
-<div class="content">
-    <div class="mingcai">
-        <ul>
-            <!--<li>-->
-            <!--<img class="biggoodpic" src="../images/icon_good_big.png"/>-->
-            <!--<div>-->
-            <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
-            <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
-            <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
-            <!--</div>-->
-            <!--<p class="title">标题</p>-->
-            <!--<p class="price">价格</p>-->
-            <!--</li>-->
-        </ul>
-    </div>
-</div>
-
-<div class="footer">
-
-    <div class="footer_inner">
-        <div class="phone">
-            <h4>铭材一站式建材采购平台</h4>
-            <p>客服热线</p>
-            <p>010-60381566</p>
-            <p>总部地址</p>
-            <p>北京市房山区良乡苏庄共创大厦底商103</p>
-        </div>
-
-        <div class="foot_logo">
-            <img src="../images/logo_120.png">
-        </div>
-
-        <div class="foot_qrcode">
-            <img src="../images/qr.png">
+    <div class="content">
+        <div class="mingcai">
+            <ul>
+                <!--<li>-->
+                <!--<img class="biggoodpic" src="../images/icon_good_big.png"/>-->
+                <!--<div>-->
+                <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
+                <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
+                <!--<img class="imgsmall" src="../images/icon_good_s1.png" alt="">-->
+                <!--</div>-->
+                <!--<p class="title">标题</p>-->
+                <!--<p class="price">价格</p>-->
+                <!--</li>-->
+            </ul>
         </div>
     </div>
-</div>
-
+    <div id="footer"></div>
 </body>
 </html>

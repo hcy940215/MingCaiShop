@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情界面</title>
+    <link rel="stylesheet" href="stylesheets/mingcai_header_footer.css">
+    <script type="text/javascript" src="javascripts/jquery_3.2.1.min.js"></script>
+    <script src="javascripts/js-common.js"></script>
+    <script src="javascripts/mingcai_header_footer.js"></script>
+    <script>
+
+        $(document).ready(function (e) {
+            // 头部容器
+            var headerDiv = $("#header");
+            var iconUrl = "images/header-icon.png";
+            var titleList = [{title: "商城首页", url: "index.html"},
+                {title: "全部分类", url: "category.html"}, {title: "关于铭材", url: "about.html"},
+                {title: "下载app", url: "downapp.html"}];
+            var searchInfo = {url: "images/search-icon.png", title: "立邦漆 慧远电线"};
+            // 初始化头部对象
+//            var header = new Header(iconUrl, titleList, searchInfo);
+            var header = new Header(null, null, null);
+            header.iconUrl = iconUrl;
+            header.titleList = titleList;
+            header.searchInfo = searchInfo;
+            header.searchCallBack = function () {
+                alert(456);
+            };
+            headerDiv.append(header.contextEle);
+
+            // 尾部容器
+            var footerDiv = $("#footer");
+            var aboutInfoList = [{title: "铭材-一站式建材采购平台"}, {title: "客服热线：", telephone: "010-60381566"},
+                {title: "总部地址：", address: "北京市房山区良乡苏庄共创大厦底商103号"}];
+            var centerIconUrl = "images/footer-icon.png";
+            var coderInfo = {title: "扫码下载app", url: "images/footer-code-icon.png"};
+            // 初始化尾部对象
+            var footer = new Footer(aboutInfoList, centerIconUrl, coderInfo);
+            footer.codeCallBack = function () {
+                alert(123);
+            };
+            footerDiv.append(footer.contextEle);
+        });
+    </script>
+    <script type="text/javascript">
+
+        var thisURL = document.URL;
+        var getval = thisURL.split('?')[1];
+        var id = getval.split("=")[1];
+
+        $.post("https://shop.mingpinjiancai.com/goods/item", {
+            id: id
+        }, function (data) {
+            var goodInfo = data["data"];
+            var $title = $(".title");
+            $title.text(goodInfo.names);
+            var $price = $(".price");
+            $price.text("￥" + goodInfo.price + "/" + goodInfo.unit);
+            // <img alt=""
+            //     src="../product-details-master/images/small/5590e481Nde172fa2.jpg" width="50"
+            //     height="50">
+            var $smallUl = $(".lh");
+            for (var i = 0; i < goodInfo.minImg.length; i++) {
+                var $li = $("<li></li>");
+                var $sImg = $("<img/>");
+                if (i == 0) {
+                    $sImg.attr("class", "img-hover");
+                }
+                $sImg.attr("src", goodInfo.minImg[i]);
+                $sImg.attr("width", 50);
+                $sImg.attr("height", 50);
+                $li.append($sImg);
+                $smallUl.append($li);
+            }
+
+        }, "json");
+    </script>
+    <style>
+        .mingcai {
+            margin: 0 auto;
+            width: 1200px;
+            height: 520px;
+        }
+
+        .mingcai .product_img {
+            float: left;
+            margin: 10px;
+            width: 580px;
+            height: 480px;
+            background: white;
+        }
+
+        .big {
+            width: 450px;
+            height: 450px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: block;
+        }
+
+        .mask {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 0, 0.4);
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: none;
+        }
+
+        .small {
+            position: relative;
+        }
+
+        .big img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .mingcai .product_info {
+            float: left;
+            margin: 10px;
+            width: 580px;
+            height: 480px;
+        }
+
+        .mingcai .qrcore {
+            float: left;
+            margin: 50px 0 10px 50px;
+            width: 600px;
+            height: 250px;
+        }
+
+        .mingcai .product_info .title {
+            margin: 50px 0 10px 50px;
+            font-size: 24px;
+        }
+
+        .mingcai .product_info .price_div {
+            height: 50px;
+            margin: 0px 50px;
+            background-color: #F0F9FE;
+        }
+
+        .mingcai .product_info .price {
+            margin-top: 10px;
+            font-size: 24px;
+            height: 50px;
+            line-height: 50px;
+            color: #009fe8;
+        }
+
+        .detial_content {
+            margin: 0 auto;
+            width: 1200px;
+            height: 1000px;
+
+        }
+
+        .detial_content .info_detial {
+            margin: 20px;
+            width: 100%;
+            height: 20px;
+            font-size: 16px;
+            text-decoration: #313437;
+            color: #009fe8;
+        }
+
+        .detial_content img {
+            margin-left: 150px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="header"></div>
+
+<div class="mingcai">
+    <div class="product_img" id="fdj">
+        <!--小盒子-->
+        <div class="small">
+            <img src="images/001.jpg" alt=""/>
+            <div class="mask"></div>
+        </div>
+        <div class="big" style="float: left;">
+            <img src="images/0001.jpg" alt=""/>
+        </div>
+        <!--<div id="spec-list">-->
+            <!--<ul class="lh" style="position: absolute; width: 806px; height: 54px; top: 0px; left: 0px;">-->
+                <!--<li>-->
+                    <!--<img alt=""-->
+                         <!--src="images/header-icon.png" width="50"-->
+                         <!--height="50">-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    </div>
+
+    <div class="product_info">
+        <p class="title">会员电线</p>
+        <div class="price_div">
+            <p class="price">￥:114元</p>
+        </div>
+        <p style="color: grey;margin-left: 50px;margin-top: 20px">优惠</p>
+        <p style="
+        color: #009fe8;
+        margin-left: 50px;
+        margin-top: 10px;
+        border: 2px solid #009fe8;
+        padding: 4px;
+        float: left;
+        border-radius: 4px">首单满1000减100</p>
+
+        <div class="qrcore">
+            <img style="float: left;" src="images/icon_detial_qr.png" alt="">
+            <div style="float: left;">
+                <div>
+                    <h2 style="margin-left: 50px;margin-top: 60px">扫码下载APP</h2>
+                </div>
+                <div>
+                    <h2 style="margin-left: 30px;margin-top: 16px">即刻下单尊享优惠</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detial_content">
+    <p class="info_detial">相关信息</p>
+    <img src="images/icon_detial.png">
+</div>
+<div id="footer"></div>
+</body>
+</html>
